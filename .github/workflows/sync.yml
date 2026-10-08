@@ -44,4 +44,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: kv key put announcements "$(cat announcements.json)" --binding ANNOUNCEMENTS_KV
+          command: kv key put announcements "$(cat announcements.json)" --binding ANNOUNCEMENTS_KV --preview false

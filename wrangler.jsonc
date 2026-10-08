@@ -4,11 +4,12 @@
   "main": "src/index.ts",
   "compatibility_date": "2026-10-01",
   "compatibility_flags": ["nodejs_compat"],
+  "account_id": "086a8bd5315242aab30263293f7dac81",
   "kv_namespaces": [
     {
       "binding": "ANNOUNCEMENTS_KV",
-      "id": "announcements_kv_prod",
-      "preview_id": "announcements_kv_preview"
+      "id": "bd920d0481e14697a67c4338391bc302",
+      "preview_id": "a08468bab43c4195a898c58dc1ed94a0"
     }
   ],
   "observability": {
