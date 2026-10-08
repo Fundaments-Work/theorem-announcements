@@ -1,0 +1,22 @@
+{
+  "name": "theorem-announcements",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker serving announcements and status updates for Theorem",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250224.0",
+    "@types/node": "^26.6.4",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.7",
+    "wrangler": "^3.111.0"
+  }
+}

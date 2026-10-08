@@ -1,0 +1,15 @@
+{
+  "announcements": [
+    {
+      "id": "theorem-1-6-0-release",
+      "severity": "info",
+      "title": "Theorem 1.6.0 is available",
+      "body": "Welcome to Theorem 1.6.0! Support local development via Buy Me Momo, or view what's new on GitHub.\nDetails at https://github.com/Fundaments-Work/Theorem/releases/tag/v1.6.0",
+      "link": "https://github.com/Fundaments-Work/Theorem/releases/tag/v1.6.0",
+      "linkLabel": "See what's new",
+      "publishedAt": "2026-10-08T00:00:00Z",
+      "expiresAt": null
+    }
+  ],
+  "updatedAt": "2026-10-08T00:00:00Z"
+}

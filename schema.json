@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TheoremAnnouncementsPayload",
+  "description": "Schema for Theorem announcements payload",
+  "type": "object",
+  "required": ["announcements"],
+  "properties": {
+    "announcements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "severity", "title", "body", "publishedAt"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Unique, stable identifier used for user dismissal tracking. Never reuse an id."
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["info", "warning", "critical"],
+            "description": "Severity level. Higher severity takes precedence."
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Brief headline for the announcement bar."
+          },
+          "body": {
+            "type": "string",
+            "description": "Main announcement message. Plain text with **bold** formatting and bare https:// links."
+          },
+          "link": {
+            "type": "string",
+            "format": "uri",
+            "pattern": "^https://",
+            "description": "Optional primary CTA link. Must be an https:// URL without credentials."
+          },
+          "linkLabel": {
+            "type": "string",
+            "description": "Optional label for the primary CTA button."
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 publication timestamp."
+          },
+          "expiresAt": {
+            "type": ["string", "null"],
+            "format": "date-time",
+            "description": "Optional ISO 8601 expiration timestamp after which the announcement is retired."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the announcements list was last updated."
+    }
+  },
+  "additionalProperties": false
+}
