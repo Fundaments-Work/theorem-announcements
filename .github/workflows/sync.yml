@@ -1,15 +1,16 @@
-name: Sync & Deploy Announcements
+name: Sync Announcements to KV
 
+# Worker deploys are handled by Cloudflare's GitHub integration (auto-deploy
+# on push), not here. This workflow only validates and syncs the data file —
+# deploying ships code, but only `kv key put` updates the live feed.
 on:
   push:
     branches: [main]
     paths:
       - "announcements.json"
-      - "src/**"
-      - "wrangler.jsonc"
 
 jobs:
-  deploy:
+  sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,16 +32,6 @@ jobs:
         run: |
           pnpm typecheck
           pnpm test
-
-      - name: Deploy Worker to Cloudflare
-        if: ${{ env.CF_TOKEN != '' }}
-        env:
-          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy
 
       - name: Sync announcements.json to KV
         if: ${{ env.CF_TOKEN != '' }}
