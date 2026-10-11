@@ -50,4 +50,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: kv key put announcements "$(cat announcements.json)" --binding ANNOUNCEMENTS_KV --preview false
+          # --remote is load-bearing: without it wrangler writes to the runner's
+          # local storage and the step "succeeds" while remote KV keeps the old
+          # value indefinitely (this silently broke the 2026-10-11 takedown).
+          command: kv key put announcements "$(cat announcements.json)" --binding ANNOUNCEMENTS_KV --preview false --remote
