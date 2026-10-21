@@ -69,10 +69,8 @@ urgent updates that cannot wait for a merge. Use it sparingly.
 - **`Theorem` is the consumer.** It fetches this feed at runtime to show the
   in-app announcement banner. Announcement wording should match what actually
   shipped in that release — check `Theorem/CHANGELOG.md` before writing one.
-- **`Fundaments-Work/content`** holds shared machine-readable facts across
-  products (support channels today). Announcements are **not** a shared fact:
-  they are Theorem-specific, one-off, and time-boxed, so they belong here and
-  nowhere else.
+- Announcements are **not** shared facts: they are Theorem-specific, one-off,
+  and time-boxed, so they belong here and nowhere else.
 - A Buy Me Momo link inside an announcement body is a URL literal like any
   other. If the canonical link changes, update announcement bodies here too —
   they are historical records with real links in them, so treat changing one as
