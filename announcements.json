@@ -1,1 +1,15 @@
-{"announcements": [], "updatedAt": "2026-10-11T03:33:00Z"}
+{
+  "announcements": [
+    {
+      "id": "theorem-1-6-1-rebuilt-2026-11-05",
+      "severity": "warning",
+      "title": "Theorem 1.6.1 has been rebuilt",
+      "body": "The rebuilt 1.6.1 fixes mobile shelf menus and syncing for edited covers and book details. If you already installed 1.6.1, download and reinstall it to get these fixes. Your library stays in place.",
+      "link": "https://github.com/Fundaments-Work/Theorem/releases/tag/v1.6.1",
+      "linkLabel": "Download 1.6.1",
+      "publishedAt": "2026-11-05T14:30:00Z",
+      "expiresAt": "2026-12-05T14:30:00Z"
+    }
+  ],
+  "updatedAt": "2026-11-05T14:30:00Z"
+}
