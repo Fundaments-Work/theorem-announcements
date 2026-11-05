@@ -237,10 +237,16 @@ async function handleGet(request: Request, env: Env): Promise<Response> {
     }
   }
 
-  // 2. Fall back to bundled seed if KV is empty
-  if (!payload || !Array.isArray(payload.announcements)) {
-    payload = seedData as AnnouncementsPayload;
+  // A deployed feed can be newer than KV if the publish job failed. Keep
+  // newer live writes (including an intentional empty feed) authoritative.
+  const seed = seedData as AnnouncementsPayload;
+  const storedAt = payload && Array.isArray(payload.announcements)
+    ? Date.parse(payload.updatedAt || "") : NaN;
+  const seedAt = Date.parse(seed.updatedAt || "");
+  if (!Number.isFinite(storedAt) || (Number.isFinite(seedAt) && seedAt > storedAt)) {
+    payload = seed;
   }
+  if (!payload) payload = seed;
 
   // 3. Filter expired and future scheduled entries
   const active = filterActiveAnnouncements(payload.announcements, Date.now());

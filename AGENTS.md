@@ -21,14 +21,15 @@ here. See `sync.yml` for why that split exists.
 
 ## The one thing to understand
 
-**Editing code does not change the live feed. Editing `announcements.json` and
-merging to `main` does.**
+**Publish feed changes through `announcements.json` on `main`.** The Worker
+uses the newer of the deployed seed and KV data, so a failed KV update cannot
+hide a newer deployment. A newer live update, including an empty feed, wins.
 
 The Worker is redeployed on push, but the feed is served from KV. The only
 thing that writes the live feed is the `kv key put` step in
 `.github/workflows/sync.yml`. So:
 
-- Change `src/index.ts` → deploys, feed unchanged.
+- Change `src/index.ts` → deploys the Worker and its bundled feed.
 - Change `announcements.json` → the workflow validates, tests, then writes KV.
 - **Change both** if you change the data shape.
 
