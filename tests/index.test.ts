@@ -211,6 +211,20 @@ describe("Announcements Worker", () => {
       expect(body.updatedAt).toBe("2099-01-01T00:00:00Z");
     });
 
+    it("does not resurrect removed announcements when KV contains a deliberate removal newer than the deployed seed", async () => {
+      // The bundled seed contains the active theorem-1-6-1 announcement (updatedAt: 2026-11-05T14:48:00Z)
+      // When an announcement is deliberately removed, KV is updated with an empty feed and a newer timestamp.
+      const deliberateRemovalInKv = {
+        announcements: [],
+        updatedAt: "2026-11-05T15:00:00Z",
+      };
+      const env = createMockEnv(JSON.stringify(deliberateRemovalInKv));
+      const res = await worker.fetch(new Request("https://announcements.fundaments.work/api/announcements"), env);
+      const body = await res.json() as { announcements: unknown[]; updatedAt: string };
+      expect(body.announcements).toEqual([]);
+      expect(body.updatedAt).toBe("2026-11-05T15:00:00Z");
+    });
+
     it("handles OPTIONS preflight with CORS headers", async () => {
       const req = new Request("https://announcements.fundaments.work/api/announcements", {
         method: "OPTIONS",
