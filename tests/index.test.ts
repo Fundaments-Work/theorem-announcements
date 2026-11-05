@@ -191,10 +191,16 @@ describe("Announcements Worker", () => {
     }
 
     it("serves the newer published seed when stored data is stale", async () => {
-      const env = createMockEnv(JSON.stringify({ announcements: [], updatedAt: "2026-10-11T03:33:00Z" }));
-      const res = await worker.fetch(new Request("https://announcements.fundaments.work/api/announcements"), env);
-      const body = await res.json() as { announcements: { id: string }[] };
-      expect(body.announcements.some(a => a.id === "theorem-1-6-1-rebuilt-2026-11-05")).toBe(true);
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date("2026-11-06T00:00:00Z"));
+      try {
+        const env = createMockEnv(JSON.stringify({ announcements: [], updatedAt: "2026-10-11T03:33:00Z" }));
+        const res = await worker.fetch(new Request("https://announcements.fundaments.work/api/announcements"), env);
+        const body = await res.json() as { announcements: { id: string }[] };
+        expect(body.announcements.some(a => a.id === "theorem-1-6-1-rebuilt-2026-11-05")).toBe(true);
+      } finally {
+        vi.useRealTimers();
+      }
     });
 
     it("keeps newer live data, including a deliberate empty feed", async () => {
