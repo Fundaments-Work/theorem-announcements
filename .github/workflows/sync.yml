@@ -34,7 +34,6 @@ jobs:
           pnpm test
 
       - name: Sync announcements.json to KV
-        if: ${{ env.CF_TOKEN != '' }}
         env:
           CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         uses: cloudflare/wrangler-action@v3
