@@ -17,24 +17,20 @@ bundled fallback seed.
 | Format | `pnpm format` |
 
 Deploys are handled by Cloudflare's own GitHub integration, **not** by a workflow
-here. See `sync.yml` for why that split exists.
+here.
 
 ## The one thing to understand
 
 **Publish feed changes through `announcements.json` on `main`.** The Worker
-uses the newer of the deployed seed and KV data, so a failed KV update cannot
-hide a newer deployment. A newer live update, including an empty feed, wins.
+bundles `announcements.json` at build time. When pushed to `main`, Cloudflare's
+GitHub integration builds and deploys the Worker automatically.
 
-The Worker is redeployed on push, but the feed is served from KV. The only
-thing that writes the live feed is the `kv key put` step in
-`.github/workflows/sync.yml`. So:
+The Worker uses the newer of the deployed bundled feed and KV data. A newer live
+update via `POST /api/announcements`, including an empty feed, still takes precedence.
 
-- Change `src/index.ts` → deploys the Worker and its bundled feed.
-- Change `announcements.json` → the workflow validates, tests, then writes KV.
+- Change `src/index.ts` → deploys Worker code.
+- Change `announcements.json` → deploys updated feed.
 - **Change both** if you change the data shape.
-
-That is also why the workflow only triggers on `paths: ["announcements.json"]`:
-it exists to sync data, not to ship code.
 
 ## Publishing
 
@@ -85,5 +81,5 @@ pnpm test
 ```
 
 `pnpm test` validates `announcements.json` against `schema.json`. Merging without
-it can put a malformed feed into KV, and `sync.yml` runs the same tests — but by
-then the bad data is already in the PR.
+it can deploy a malformed feed, and `test.yml` runs the same tests on PRs — but
+catching it locally saves a round-trip.

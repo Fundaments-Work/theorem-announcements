@@ -7,7 +7,7 @@ Cloudflare Worker serving announcements, status advisories, and release notifica
 - **Global Edge Serving**: Powered by Cloudflare Workers and KV (`ANNOUNCEMENTS_KV`).
 - **Zero-Dependency Read Path**: Pure JSON responses with strict CORS and 5-minute HTTP edge caching (`Cache-Control: public, max-age=300`, `ETag`).
 - **Fail-Safe Fallback**: Bundled fallback seed ensures announcements serve reliably even during KV cold starts or migrations.
-- **GitOps Workflow**: Modify `announcements.json` via reviewed PRs. Merging to `main` deploys and updates the edge KV store automatically.
+- **GitOps Workflow**: Modify `announcements.json` via reviewed PRs. Merging to `main` automatically builds and deploys the updated feed.
 
 ---
 
@@ -54,7 +54,7 @@ Authorized endpoint for urgent updates or automated publishing.
    pnpm test
    ```
 4. Open a Pull Request on GitHub.
-5. Upon merging into `main`, GitHub Actions automatically validates the schema and deploys the update to Cloudflare KV.
+5. Upon merging into `main`, Cloudflare automatically builds and deploys the updated Worker with the new announcements feed.
 
 ---
 
